@@ -1,0 +1,14 @@
+{
+  "name": "onggoc-baylaldaan",
+  "version": "1.0.0",
+  "description": "Онгоцны байлдаан: найзтай тоглох өрөөний сервер (нэмэлт сангүй)",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test_server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

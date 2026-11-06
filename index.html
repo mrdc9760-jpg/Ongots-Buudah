@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Онгоцны байлдаан</title>
+<meta name="theme-color" content="#f5f8fd">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="app">
+  <header class="head">
+    <div>
+      <h1>Онгоцны байлдаан</h1>
+      <p class="sub">10×10 · дэвтрийн тоглоом · бот эсрэг</p>
+    </div>
+    <div class="record" id="record">Хожил 0 · Хожигдол 0</div>
+  </header>
+
+  <section class="sect" id="setup" aria-label="Онгоц байрлуулах">
+    <div class="profile">
+      <label class="avatar" for="photoFile" title="Зураг оруулах">
+        <img id="avatarImg" alt="Таны зураг" hidden>
+        <b id="avatarLetter">Т</b>
+      </label>
+      <div class="pf-info">
+        <input type="text" id="nameInput" maxlength="16" placeholder="Нисгэгчийн нэр" aria-label="Нисгэгчийн нэр" autocomplete="off">
+        <div class="pf-acts">
+          <label class="mini-btn" for="photoFile">Зураг оруулах</label>
+          <button class="mini-btn" id="photoDel" type="button" hidden>Зургийг устгах</button>
+        </div>
+        <input class="sr" type="file" id="photoFile" accept="image/*">
+        <p class="pf-note" id="pfNote" aria-live="polite">Зураг зөвхөн энэ төхөөрөмжид хадгалагдана.</p>
+      </div>
+    </div>
+
+    <div class="rank" id="rank">
+      <div class="rank-top"><b id="rankName">Шинэ нисгэгч</b><span id="totalPts">0 оноо</span></div>
+      <div class="bar" aria-hidden="true"><i id="rankBar"></i></div>
+      <p class="rank-sub" id="rankSub"></p>
+    </div>
+
+    <div class="row">
+      <span class="lbl" id="modeLbl">Тоглоомын төрөл</span>
+      <div class="chips seg" id="modes" role="radiogroup" aria-labelledby="modeLbl"></div>
+    </div>
+
+    <div class="stack" id="cfgRows">
+      <div class="row">
+        <span class="lbl" id="countLbl">Онгоцны тоо</span>
+        <div class="chips" id="chips" role="radiogroup" aria-labelledby="countLbl"></div>
+      </div>
+      <div class="row">
+        <span class="lbl" id="ruleLbl">Устах дүрэм</span>
+        <div class="chips seg" id="rules2" role="radiogroup" aria-labelledby="ruleLbl"></div>
+      </div>
+    </div>
+
+    <div class="row" id="levelRow">
+      <span class="lbl" id="lvlLbl">Ботын түвшин</span>
+      <div class="chips seg" id="levels" role="radiogroup" aria-labelledby="lvlLbl"></div>
+    </div>
+
+    <div class="stack" id="friendBox" hidden>
+      <button class="btn primary" id="createBtn" type="button">Өрөө үүсгэх</button>
+      <div class="join-row">
+        <input type="text" id="codeInput" maxlength="4" placeholder="КОД" aria-label="Өрөөний код" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        <button class="btn" id="joinBtn" type="button">Өрөөнд орох</button>
+      </div>
+      <p class="hint" id="netNote" aria-live="polite"></p>
+    </div>
+
+    <div class="roombar" id="roomBar" hidden>
+      <div class="rb-top"><span>Өрөөний код</span><b class="room-code" id="roomCode">----</b></div>
+      <p class="rb-msg" id="roomMsg" aria-live="polite"></p>
+      <p class="rb-note" id="roomNote" aria-live="polite"></p>
+      <div class="rb-acts">
+        <button class="btn" id="shareBtn" type="button">Урилга илгээх</button>
+        <button class="btn" id="leaveBtn" type="button">Өрөөнөөс гарах</button>
+      </div>
+    </div>
+
+    <div class="stack" id="placeArea">
+      <div class="row">
+        <span class="lbl" id="typeLbl">Онгоцны төрөл</span>
+        <div class="chips seg" id="types" role="radiogroup" aria-labelledby="typeLbl"></div>
+      </div>
+
+    <div id="setupBoard"></div>
+
+    <div class="row">
+      <div class="mini-wrap">
+        <div class="mini" id="mini" aria-hidden="true"></div>
+        <div class="mini-text"><b id="typeText">Байлдааны</b> · <span id="cellText">10</span> нүд<br>Чиглэл: <b id="dirText">дээш</b><br><span id="limText"></span></div>
+      </div>
+    </div>
+
+    <div class="tools">
+      <button class="btn" id="rotBtn" type="button">Эргүүлэх</button>
+      <button class="btn" id="placeBtn" type="button">Байрлуулах</button>
+      <button class="btn" id="undoBtn" type="button">Буцаах</button>
+      <button class="btn" id="autoBtn" type="button">Автомат</button>
+    </div>
+    <p class="hint" id="hint" aria-live="polite"></p>
+    <button class="btn primary" id="startBtn" type="button">Тулалдаан эхлэх</button>
+    </div>
+
+    <ul class="rules" id="rulesList">
+      <li>3 төрлийн онгоц: Энгийн (8 нүд), Байлдааны (10), Сонгодог (10). Бүгд толгойтой.</li>
+      <li id="killRule"></li>
+      <li>Оносон бол дахин буудна. Дараалан 3 онобол буудах эрх өрсөлдөгчид шилжинэ, тэр эхний буудалтдаа дурын сумыг үнэгүй сонгоно.</li>
+      <li>Өнжүүлэх сум оновол дайсан дараагийн ээлжээ алгасна. Давхар шархын сум оносон нүд болон хөрш нэг нүдийг шархлуулна.</li>
+      <li>Энгийн сумаар 4 удаа буудахад Өнжүүлэх, 6 удаа буудахад Давхар шархын сум нэмэгдэнэ. Онгоцгүй нүдэнд нуугдсан сумны эрх бас байна.</li>
+      <li>Оноо: шарх +10, толгой +50, шархаар сөнөөсөн +30, сумны эрх +15, 3 дараалж онох +30, хожих +100 ба үлдсэн онгоц бүрт +20.</li>
+    </ul>
+  </section>
+
+  <section class="sect" id="battle" aria-label="Тулалдаан" hidden>
+    <div class="vs" id="vs">
+      <div class="who on" id="whoMe">
+        <span class="av"><img id="vsImg" alt="" hidden><b id="vsLetter">Т</b></span>
+        <span class="wt"><span class="wn" id="vsName">Та</span><span class="sc" id="vsScore">0 оноо</span></span>
+      </div>
+      <span class="vs-mid" aria-hidden="true">VS</span>
+      <div class="who" id="whoBot">
+        <span class="av"><svg id="botSvg" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12V6"/><circle cx="24" cy="4.5" r="2"/><path d="M10 15Q9 13 12 13L36 13Q39 14 38 17L38.5 36Q37 40 34 39L13 40Q9 39 10 36Z"/><circle cx="18" cy="25" r="3.2"/><circle cx="30" cy="25" r="3.2"/><path d="M17 32Q24 35 31 32"/></svg><img id="oppImg" alt="" hidden><b id="oppLetter" hidden>?</b></span>
+        <span class="wt"><span class="wn" id="oppName">Бот</span><span class="sc lv" id="botLv">Хөнгөн</span></span>
+      </div>
+    </div>
+    <div class="status">
+      <p class="turn" id="turn">Таны ээлж</p>
+      <p class="msg" id="msg" aria-live="polite"></p>
+    </div>
+    <div class="pills">
+      <div class="pill"><span>Таны онгоц</span><span id="myLeft">3/3</span></div>
+      <div class="pill"><span>Дайсны онгоц</span><span id="botLeft">3/3</span></div>
+      <div class="pill"><span>Дараалал</span><span id="streak">0/3</span></div>
+    </div>
+    <div class="ammo" id="ammo" role="radiogroup" aria-label="Сум сонгох"></div>
+    <p class="ammo-note" id="ammoNote"></p>
+    <h2>Дайсны талбай <small>буудах нүдээ товш</small></h2>
+    <div id="enemyBoard"></div>
+    <p class="tags" id="enemyTags"></p>
+    <p class="legend" id="legend"></p>
+    <h2>Таны талбай</h2>
+    <div id="ownBoard"></div>
+    <p class="tags" id="ownTags"></p>
+    <div class="row2">
+      <button class="btn" id="soundBtn" type="button" aria-pressed="false">Дуу, чичиргээ: унтраалттай</button>
+      <button class="btn" id="quitBtn" type="button">Тулалдаанаас гарах</button>
+    </div>
+  </section>
+</main>
+
+<div class="overlay" id="over" role="dialog" aria-modal="true" aria-labelledby="overTitle" hidden>
+  <div class="card">
+    <h2 id="overTitle">Та хожлоо!</h2>
+    <p id="overText"></p>
+    <ul class="bd" id="bd"></ul>
+    <div class="bd-total"><span>Нийт оноо</span><b id="bdTotal">0</b></div>
+    <p class="rk" id="rkText"></p>
+    <div class="acts">
+      <button class="btn primary" id="againBtn" type="button">Дахин тоглох</button>
+      <button class="btn" id="viewBtn" type="button">Талбайг харах</button>
+    </div>
+  </div>
+</div>
+
+<script src="/logic.js"></script>
+<script src="/draw.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
