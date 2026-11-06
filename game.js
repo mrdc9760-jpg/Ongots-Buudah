@@ -1,7 +1,8 @@
 "use strict";
 // Rooms and the server-side referee. Both players' plane layouts live only here; each player is sent a personal view.
 const crypto = require("crypto");
-const L = require("./public/logic.js");
+let L;   // the shared rules live in public/logic.js; fall back to the same folder if the files were uploaded without the public folder
+try { L = require("./public/logic.js"); } catch (e) { if (e.code !== "MODULE_NOT_FOUND") throw e; L = require("./logic.js"); }
 
 const WHO = { a: "player", b: "bot" };   // the shared rules code names its two sides player/bot
 const OPP = { a: "b", b: "a" };

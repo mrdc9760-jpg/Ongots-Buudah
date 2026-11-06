@@ -6,7 +6,9 @@ const path = require("path");
 const G = require("./game.js");
 
 const PORT = Number(process.env.PORT) || 3000;
-const PUBLIC = path.join(__dirname, "public");
+// Page files normally sit in ./public. If they were uploaded flat (no public folder), serve them from this folder instead.
+// Only the five names listed in FILES below are ever served, so server.js and the rest stay private either way.
+const PUBLIC = fs.existsSync(path.join(__dirname, "public", "index.html")) ? path.join(__dirname, "public") : __dirname;
 const FILES = {
   "/": ["index.html", "text/html; charset=utf-8"],
   "/index.html": ["index.html", "text/html; charset=utf-8"],
